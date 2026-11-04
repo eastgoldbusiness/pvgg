@@ -117,7 +117,7 @@ export function ExperiencesSection() {
           </div>
 
           {/* Cinematic Large Hotel Photograph */}
-          <div className="mt-14 sm:mt-18 lg:mt-22 relative w-full h-[320px] sm:h-[440px] lg:h-[580px] rounded-xs overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
+          <div className="mt-10 sm:mt-18 lg:mt-22 relative w-full h-[240px] sm:h-[400px] lg:h-[580px] rounded-xs overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
             <Image
               src={EXPERIENCES_INTRO.image}
               alt={EXPERIENCES_INTRO.imageAlt}
@@ -181,7 +181,7 @@ export function ExperiencesSection() {
                   className="min-w-[85vw] sm:min-w-[340px] md:min-w-0 snap-center group relative bg-white rounded-xs overflow-hidden border border-slate-200/80 hover:border-[#C5A572] transition-all duration-500 shadow-sm hover:shadow-[0_16px_40px_rgba(23,59,99,0.08)] flex flex-col justify-between"
                 >
                   {/* Upper Photograph */}
-                  <div className="relative w-full h-[240px] sm:h-[260px] lg:h-[280px] overflow-hidden bg-slate-900 flex-shrink-0">
+                  <div className="relative w-full h-[210px] sm:h-[260px] lg:h-[280px] overflow-hidden bg-slate-900 flex-shrink-0">
                     <Image
                       src={item.image}
                       alt={item.imageAlt}

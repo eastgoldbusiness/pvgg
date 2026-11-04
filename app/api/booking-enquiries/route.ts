@@ -43,7 +43,7 @@ export async function OPTIONS(req: Request) {
  * Receives and processes a room booking enquiry:
  * 1. Validates request body size.
  * 2. Applies client IP rate limiting.
- * 3. Enforces strict 5-field schema validation via Zod.
+ * 3. Enforces strict 7-field schema validation via Zod.
  * 4. Sends email to admin via SMTP.
  * 5. Returns consistent, sanitized JSON responses.
  */
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
     );
   }
 
-  // 4. Validate strictly against the 5-field schema
+  // 4. Validate strictly against the 7-field schema
   const parseResult = bookingEnquirySchema.safeParse(rawBody);
 
   if (!parseResult.success) {

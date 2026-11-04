@@ -237,7 +237,7 @@ export function RoomsSuitesSection() {
                 aria-label={`${(index % TOTAL_ROOMS) + 1} of ${TOTAL_ROOMS}: ${room.name} — Pavan Vela Grand Dindigul`}
                 aria-current={isActive ? "true" : undefined}
                 style={{ width: "var(--card-w)" }}
-                className={`flex-shrink-0 relative overflow-hidden rounded-xs transition-all duration-700 h-[440px] sm:h-[490px] lg:h-[540px] flex flex-col ${
+                className={`flex-shrink-0 relative overflow-hidden rounded-xs transition-all duration-700 h-[430px] sm:h-[490px] lg:h-[540px] flex flex-col ${
                   isActive
                     ? "opacity-100 z-20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
                     : "opacity-85 z-10 cursor-pointer shadow-md"
@@ -251,7 +251,7 @@ export function RoomsSuitesSection() {
                 {isActive ? (
                   <div className="w-full h-full flex flex-col bg-white">
                     {/* Top Room Photograph */}
-                    <div className="relative w-full h-[280px] sm:h-[320px] lg:h-[360px] overflow-hidden bg-slate-900 flex-shrink-0">
+                    <div className="relative w-full h-[220px] sm:h-[300px] lg:h-[360px] overflow-hidden bg-slate-900 flex-shrink-0">
                       <Image
                         src={room.image}
                         alt={room.imageAlt}

@@ -10,6 +10,7 @@ import {
   User,
   Mail,
   Phone,
+  Calendar,
   BedDouble,
   Users,
   Minus,
@@ -20,11 +21,14 @@ import {
 } from "lucide-react";
 import { useBookingModal } from "@/context/BookingModalContext";
 import { bookingEnquirySchema } from "@/lib/validation/booking";
+import { formatDisplayDate, getTodayString, getNextDayString } from "@/lib/utils";
 
 interface FormState {
   fullName: string;
   email: string;
   contactNumber: string;
+  checkInDate: string;
+  checkOutDate: string;
   numberOfRooms: number;
   totalGuests: number;
 }
@@ -33,6 +37,8 @@ const INITIAL_FORM: FormState = {
   fullName: "",
   email: "",
   contactNumber: "",
+  checkInDate: "",
+  checkOutDate: "",
   numberOfRooms: 1,
   totalGuests: 2,
 };
@@ -48,6 +54,13 @@ export function BookingEnquiryModal() {
 
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
+  const checkInInputRef = useRef<HTMLInputElement>(null);
+  const checkOutInputRef = useRef<HTMLInputElement>(null);
+
+  const todayStr = getTodayString();
+  const minCheckOutStr = formData.checkInDate
+    ? getNextDayString(formData.checkInDate)
+    : getNextDayString(todayStr);
 
   // Focus trap & Escape key listener
   useEffect(() => {
@@ -89,6 +102,48 @@ export function BookingEnquiryModal() {
     });
     setGeneralError(null);
   }, []);
+
+  const handleDateChange = useCallback(
+    (field: "checkInDate" | "checkOutDate", value: string) => {
+      setFormData((prev) => {
+        const next = { ...prev, [field]: value };
+        // If user changed check-in date, check if existing check-out date is still valid
+        if (field === "checkInDate") {
+          if (next.checkOutDate && value && next.checkOutDate <= value) {
+            next.checkOutDate = "";
+          }
+        }
+        return next;
+      });
+
+      // Clear field-specific error as user selects a date
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        if (field === "checkInDate") {
+          delete next.checkOutDate;
+        }
+        return next;
+      });
+      setGeneralError(null);
+    },
+    []
+  );
+
+  const handleDateClear = useCallback(
+    (field: "checkInDate" | "checkOutDate") => {
+      setFormData((prev) => {
+        const next = { ...prev, [field]: "" };
+        return next;
+      });
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    },
+    []
+  );
 
   const validateClientSide = (): boolean => {
     const result = bookingEnquirySchema.safeParse(formData);
@@ -377,9 +432,164 @@ export function BookingEnquiryModal() {
                     )}
                   </div>
 
-                  {/* Fields 4 & 5: Number of Rooms & Total Guests (Interactive Stepper Controls) */}
+                  {/* Fields 4 & 5: Check-in Date & Check-out Date */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {/* Field 4: Number of Rooms */}
+                    {/* Field 4: Check-in Date */}
+                    <div>
+                      <label
+                        htmlFor="booking-check-in-date"
+                        className="block text-[10.5px] font-sans font-bold uppercase tracking-[0.14em] text-[#173B63] mb-1"
+                      >
+                        Check-in Date <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative group">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-[#C5A572] transition-colors z-0">
+                          <Calendar className="w-3.5 h-3.5" />
+                        </div>
+                        <div
+                          className={`w-full pl-9 pr-7 py-2 sm:py-2.5 bg-white border text-xs sm:text-[13px] font-sans rounded-md shadow-2xs transition-all pointer-events-none flex items-center ${
+                            fieldErrors.checkInDate
+                              ? "border-red-400 ring-1 ring-red-400"
+                              : "border-slate-200 group-hover:border-slate-300 group-focus-within:border-[#C5A572] group-focus-within:ring-2 group-focus-within:ring-[#C5A572]/20"
+                          }`}
+                        >
+                          <span
+                            className={
+                              formData.checkInDate
+                                ? "text-[#182230] font-medium truncate"
+                                : "text-slate-400 truncate"
+                            }
+                          >
+                            {formData.checkInDate
+                              ? formatDisplayDate(formData.checkInDate)
+                              : "Select check-in date"}
+                          </span>
+                        </div>
+                        <input
+                          ref={checkInInputRef}
+                          id="booking-check-in-date"
+                          type="date"
+                          required
+                          disabled={isSubmitting}
+                          value={formData.checkInDate}
+                          min={todayStr}
+                          onChange={(e) => handleDateChange("checkInDate", e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              (e.target as HTMLInputElement).showPicker?.();
+                            } catch {}
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+                              try {
+                                (e.target as HTMLInputElement).showPicker?.();
+                              } catch {}
+                            }
+                          }}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                          aria-label="Check-in Date"
+                        />
+                        {formData.checkInDate && !isSubmitting && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDateClear("checkInDate");
+                            }}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-1 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
+                            aria-label="Clear check-in date"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                      {fieldErrors.checkInDate && (
+                        <p className="mt-1 text-[11px] text-red-600 font-sans">
+                          {fieldErrors.checkInDate}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Field 5: Check-out Date */}
+                    <div>
+                      <label
+                        htmlFor="booking-check-out-date"
+                        className="block text-[10.5px] font-sans font-bold uppercase tracking-[0.14em] text-[#173B63] mb-1"
+                      >
+                        Check-out Date <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative group">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-[#C5A572] transition-colors z-0">
+                          <Calendar className="w-3.5 h-3.5" />
+                        </div>
+                        <div
+                          className={`w-full pl-9 pr-7 py-2 sm:py-2.5 bg-white border text-xs sm:text-[13px] font-sans rounded-md shadow-2xs transition-all pointer-events-none flex items-center ${
+                            fieldErrors.checkOutDate
+                              ? "border-red-400 ring-1 ring-red-400"
+                              : "border-slate-200 group-hover:border-slate-300 group-focus-within:border-[#C5A572] group-focus-within:ring-2 group-focus-within:ring-[#C5A572]/20"
+                          }`}
+                        >
+                          <span
+                            className={
+                              formData.checkOutDate
+                                ? "text-[#182230] font-medium truncate"
+                                : "text-slate-400 truncate"
+                            }
+                          >
+                            {formData.checkOutDate
+                              ? formatDisplayDate(formData.checkOutDate)
+                              : "Select check-out date"}
+                          </span>
+                        </div>
+                        <input
+                          ref={checkOutInputRef}
+                          id="booking-check-out-date"
+                          type="date"
+                          required
+                          disabled={isSubmitting}
+                          value={formData.checkOutDate}
+                          min={minCheckOutStr}
+                          onChange={(e) => handleDateChange("checkOutDate", e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              (e.target as HTMLInputElement).showPicker?.();
+                            } catch {}
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+                              try {
+                                (e.target as HTMLInputElement).showPicker?.();
+                              } catch {}
+                            }
+                          }}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                          aria-label="Check-out Date"
+                        />
+                        {formData.checkOutDate && !isSubmitting && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDateClear("checkOutDate");
+                            }}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-1 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
+                            aria-label="Clear check-out date"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                      {fieldErrors.checkOutDate && (
+                        <p className="mt-1 text-[11px] text-red-600 font-sans">
+                          {fieldErrors.checkOutDate}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Fields 6 & 7: Number of Rooms & Total Guests (Interactive Stepper Controls) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {/* Field 6: Number of Rooms */}
                     <div>
                       <label
                         htmlFor="booking-rooms"
@@ -444,7 +654,7 @@ export function BookingEnquiryModal() {
                       )}
                     </div>
 
-                    {/* Field 5: Total Number of Guests */}
+                    {/* Field 7: Total Number of Guests */}
                     <div>
                       <label
                         htmlFor="booking-guests"

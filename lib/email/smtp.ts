@@ -1,5 +1,6 @@
 import nodemailer, { type Transporter, type SendMailOptions } from "nodemailer";
 import type { BookingEnquiryPayload, SmtpConfig } from "@/types/booking";
+import { formatDisplayDate } from "@/lib/utils";
 
 /**
  * Escapes HTML characters to prevent HTML/XSS injection in rendered emails.
@@ -94,6 +95,8 @@ export function generateBookingEmailHtml(data: BookingEnquiryPayload, timestamp:
   const safeName = escapeHtml(data.fullName);
   const safeEmail = escapeHtml(data.email);
   const safePhone = escapeHtml(data.contactNumber);
+  const safeCheckIn = escapeHtml(formatDisplayDate(data.checkInDate));
+  const safeCheckOut = escapeHtml(formatDisplayDate(data.checkOutDate));
   const safeRooms = escapeHtml(data.numberOfRooms);
   const safeGuests = escapeHtml(data.totalGuests);
   const safeIstTime = escapeHtml(timestamp.ist);
@@ -186,6 +189,26 @@ export function generateBookingEmailHtml(data: BookingEnquiryPayload, timestamp:
                   </td>
                 </tr>
 
+                <!-- Check-in Date -->
+                <tr>
+                  <td style="padding: 12px 0; border-bottom: 1px solid #F1F5F9; font-size: 13px; color: #64748B; font-weight: 500;">
+                    Check-in Date
+                  </td>
+                  <td style="padding: 12px 0; border-bottom: 1px solid #F1F5F9; font-size: 14px; color: #10263D; font-weight: 600;">
+                    ${safeCheckIn}
+                  </td>
+                </tr>
+
+                <!-- Check-out Date -->
+                <tr>
+                  <td style="padding: 12px 0; border-bottom: 1px solid #F1F5F9; font-size: 13px; color: #64748B; font-weight: 500;">
+                    Check-out Date
+                  </td>
+                  <td style="padding: 12px 0; border-bottom: 1px solid #F1F5F9; font-size: 14px; color: #10263D; font-weight: 600;">
+                    ${safeCheckOut}
+                  </td>
+                </tr>
+
                 <!-- Number of Rooms -->
                 <tr>
                   <td style="padding: 12px 0; border-bottom: 1px solid #F1F5F9; font-size: 13px; color: #64748B; font-weight: 500;">
@@ -259,8 +282,10 @@ Guest Name:              ${data.fullName}
 Guest Email:             ${data.email}
 Contact Number:          ${data.contactNumber}
 
-RESERVATION REQUIREMENTS
-------------------------
+STAY DETAILS
+------------
+Check-in Date:           ${formatDisplayDate(data.checkInDate)}
+Check-out Date:          ${formatDisplayDate(data.checkOutDate)}
 Number of Rooms:         ${data.numberOfRooms}
 Total Number of Guests:  ${data.totalGuests}
 

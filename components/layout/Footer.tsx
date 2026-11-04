@@ -230,7 +230,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-[#C5A572] hover:text-white transition-colors font-semibold"
               >
-                Javix
+                Javix Technologies
               </a>
             </p>
 

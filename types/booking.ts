@@ -52,12 +52,14 @@ export interface RoomReservationRequest {
 
 /**
  * Pavan Vela Grand — Functional Book a Room Enquiry Payload
- * Strictly 5 fields as specified in business requirements.
+ * Strictly 7 fields: Full Name, Email, Contact Number, Check-in Date, Check-out Date, Number of Rooms, Total Guests.
  */
 export interface BookingEnquiryPayload {
   readonly fullName: string;
   readonly email: string;
   readonly contactNumber: string;
+  readonly checkInDate: string;
+  readonly checkOutDate: string;
   readonly numberOfRooms: number;
   readonly totalGuests: number;
 }

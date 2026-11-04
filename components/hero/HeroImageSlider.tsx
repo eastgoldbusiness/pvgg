@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useSyncExternalStore } from "react";
+import React, { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { HERO_SLIDES, type HeroSlide } from "@/config/hero";
@@ -27,6 +27,7 @@ function getReducedMotionServerSnapshot() {
  * Requirements met:
  * - Minimum 5 distinct high-resolution hotel photographs.
  * - Automatic rotation every 5 seconds.
+ * - Touch swipe support for mobile visitors.
  * - Luxurious, smooth crossfade transition (approx 1000ms).
  * - Preloads the first slide with `priority`.
  * - Pauses on hover/focus for user convenience.
@@ -36,6 +37,9 @@ function getReducedMotionServerSnapshot() {
 export function HeroImageSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
+  const touchStartXRef = useRef<number | null>(null);
+  const touchEndXRef = useRef<number | null>(null);
 
   const prefersReducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
@@ -47,8 +51,34 @@ export function HeroImageSlider() {
     setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
   }, []);
 
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  }, []);
+
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
+  };
+
+  // Touch Swipe Handlers for Mobile Devices
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchEndXRef.current = null;
+    touchStartXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartXRef.current === null || touchEndXRef.current === null) return;
+    const distance = touchStartXRef.current - touchEndXRef.current;
+    if (distance > 45) {
+      nextSlide();
+    } else if (distance < -45) {
+      prevSlide();
+    }
+    touchStartXRef.current = null;
+    touchEndXRef.current = null;
   };
 
   // 5-second automatic rotation
@@ -67,7 +97,10 @@ export function HeroImageSlider() {
   return (
     <div
       aria-label="Pavan Vela Grand Property Photographs"
-      className="relative w-full h-full min-h-[440px] sm:min-h-[500px] lg:min-h-full overflow-hidden bg-slate-900"
+      className="relative w-full h-full overflow-hidden bg-slate-900"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocus={() => setIsPaused(true)}
@@ -107,9 +140,9 @@ export function HeroImageSlider() {
         <span className="w-[1px] h-12 bg-white/40 mt-3" />
       </div>
 
-      {/* Minimalist Slide Navigation Dots (Bottom Right - as in reference) */}
+      {/* Minimalist Slide Navigation Dots (Centered on Mobile, Bottom Right on Desktop) */}
       <div
-        className="absolute bottom-6 right-6 sm:bottom-8 sm:right-10 z-10 flex items-center space-x-2 bg-black/35 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/15"
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 sm:bottom-8 sm:left-auto sm:translate-x-0 sm:right-10 z-10 flex items-center space-x-1.5 sm:space-x-2 bg-black/40 backdrop-blur-md px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full border border-white/15"
         role="tablist"
         aria-label="Image Carousel Slides"
       >
@@ -122,12 +155,12 @@ export function HeroImageSlider() {
               aria-selected={isActive}
               aria-label={`Go to slide ${index + 1}: ${slide.category}`}
               onClick={() => goToSlide(index)}
-              className="p-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-full transition-transform"
+              className="p-0.5 sm:p-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-full transition-transform cursor-pointer"
             >
               <span
                 className={`block rounded-full transition-all duration-300 ${
                   isActive
-                    ? "w-7 h-1.5 bg-[#C5A572]"
+                    ? "w-6 sm:w-7 h-1.5 bg-[#C5A572]"
                     : "w-1.5 h-1.5 bg-white/55 group-hover:bg-white/90"
                 }`}
               />
