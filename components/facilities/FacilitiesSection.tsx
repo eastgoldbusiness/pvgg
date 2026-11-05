@@ -85,7 +85,7 @@ export function FacilitiesSection() {
             >
               {/* Left Column: Authentic Covered Parking Image */}
               <div className="lg:col-span-7">
-                <div className="group relative w-full h-[240px] sm:h-[380px] lg:h-[460px] rounded-xs overflow-hidden bg-slate-900 shadow-[0_20px_50px_rgba(23,59,99,0.08)] ring-1 ring-slate-200/80">
+                <div className="group relative w-full h-[240px] sm:h-[380px] lg:h-[460px] rounded-xs overflow-hidden bg-slate-900 ring-1 ring-slate-200/80">
                   <Image
                     src={parkingFacility.image}
                     alt={parkingFacility.imageAlt}
@@ -93,7 +93,6 @@ export function FacilitiesSection() {
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                 </div>
               </div>
 
@@ -196,7 +195,7 @@ export function FacilitiesSection() {
 
               {/* Right Column (Desktop): Authentic Exterior / Surroundings Image (order-1 on mobile) */}
               <div className="lg:col-span-7 lg:order-2 order-1">
-                <div className="group relative w-full h-[240px] sm:h-[380px] lg:h-[460px] rounded-xs overflow-hidden bg-slate-900 shadow-[0_20px_50px_rgba(23,59,99,0.08)] ring-1 ring-slate-200/80">
+                <div className="group relative w-full h-[240px] sm:h-[380px] lg:h-[460px] rounded-xs overflow-hidden bg-slate-900 ring-1 ring-slate-200/80">
                   <Image
                     src={peacefulFacility.image}
                     alt={peacefulFacility.imageAlt}
@@ -204,7 +203,6 @@ export function FacilitiesSection() {
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                 </div>
               </div>
             </motion.article>

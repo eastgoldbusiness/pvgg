@@ -117,7 +117,7 @@ export function ExperiencesSection() {
           </div>
 
           {/* Cinematic Large Hotel Photograph */}
-          <div className="mt-10 sm:mt-18 lg:mt-22 relative w-full h-[240px] sm:h-[400px] lg:h-[580px] rounded-xs overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
+          <div className="mt-10 sm:mt-18 lg:mt-22 relative w-full h-[240px] sm:h-[400px] lg:h-[580px] rounded-xs overflow-hidden ring-1 ring-white/10">
             <Image
               src={EXPERIENCES_INTRO.image}
               alt={EXPERIENCES_INTRO.imageAlt}
@@ -125,7 +125,6 @@ export function ExperiencesSection() {
               sizes="100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#10263D]/70 via-transparent to-transparent pointer-events-none" />
           </div>
         </div>
       </div>
@@ -178,7 +177,7 @@ export function ExperiencesSection() {
                     delay: prefersReducedMotion ? 0 : index * 0.15,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className="min-w-[85vw] sm:min-w-[340px] md:min-w-0 snap-center group relative bg-white rounded-xs overflow-hidden border border-slate-200/80 hover:border-[#C5A572] transition-all duration-500 shadow-sm hover:shadow-[0_16px_40px_rgba(23,59,99,0.08)] flex flex-col justify-between"
+                  className="min-w-[85vw] sm:min-w-[340px] md:min-w-0 snap-center group relative bg-white rounded-xs overflow-hidden border border-slate-200/80 hover:border-[#C5A572] transition-all duration-500 flex flex-col justify-between"
                 >
                   {/* Upper Photograph */}
                   <div className="relative w-full h-[210px] sm:h-[260px] lg:h-[280px] overflow-hidden bg-slate-900 flex-shrink-0">
@@ -194,8 +193,6 @@ export function ExperiencesSection() {
                     <div className="absolute top-4 left-4 z-10 px-3.5 py-1 bg-[#10263D]/85 backdrop-blur-md rounded-full border border-white/20 text-white font-sans text-[11px] tracking-wider uppercase flex items-center shadow-md">
                       <span className="text-[#C5A572] font-semibold">{item.stage}</span>
                     </div>
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                   </div>
 
                   {/* Lower Content */}

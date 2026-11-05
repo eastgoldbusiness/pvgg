@@ -122,7 +122,7 @@ export function Navbar() {
             aria-label={`${BRAND_CONFIG.name} Homepage`}
           >
             <div
-              className={`relative rounded-full overflow-hidden flex-shrink-0 shadow-xs ring-1 ring-slate-200/80 transition-all duration-300 group-hover:scale-105 bg-white ${
+              className={`relative rounded-full overflow-hidden flex-shrink-0 ring-1 ring-slate-200/80 transition-all duration-300 group-hover:scale-105 bg-white ${
                 scrolled
                   ? "w-9 h-9 sm:w-10 sm:h-10"
                   : "w-10 h-10 sm:w-12 sm:h-12"

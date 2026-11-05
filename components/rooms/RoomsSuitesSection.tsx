@@ -239,8 +239,8 @@ export function RoomsSuitesSection() {
                 style={{ width: "var(--card-w)" }}
                 className={`flex-shrink-0 relative overflow-hidden rounded-xs transition-all duration-700 h-[430px] sm:h-[490px] lg:h-[540px] flex flex-col ${
                   isActive
-                    ? "opacity-100 z-20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-                    : "opacity-85 z-10 cursor-pointer shadow-md"
+                    ? "opacity-100 z-20 ring-1 ring-white/10"
+                    : "opacity-85 z-10 cursor-pointer"
                 }`}
                 onClick={() => {
                   if (isPrev) handlePrev();

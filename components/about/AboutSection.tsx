@@ -127,7 +127,7 @@ export function AboutSection() {
               }}
               className="lg:col-span-6 xl:col-span-6 flex flex-col justify-center"
             >
-              <div className="relative w-full aspect-[3/2] rounded-xs overflow-hidden bg-slate-50 shadow-[0_20px_50px_rgba(23,59,99,0.08)] ring-1 ring-slate-200/80">
+              <div className="relative w-full aspect-[3/2] rounded-xs overflow-hidden bg-slate-50 ring-1 ring-slate-200/80">
                 <Image
                   src={ABOUT_HERO.image}
                   alt={ABOUT_HERO.imageAlt}
@@ -207,7 +207,7 @@ export function AboutSection() {
               }}
               className="lg:col-span-6 flex flex-col justify-center"
             >
-              <div className="relative w-full aspect-[2/3] max-w-[360px] sm:max-w-[400px] lg:max-w-[420px] mx-auto lg:ml-auto rounded-xs overflow-hidden bg-slate-950/40 shadow-[0_25px_60px_rgba(0,0,0,0.5)] ring-1 ring-white/15">
+              <div className="relative w-full aspect-[2/3] max-w-[360px] sm:max-w-[400px] lg:max-w-[420px] mx-auto lg:ml-auto rounded-xs overflow-hidden bg-slate-950/40 ring-1 ring-white/15">
                 <Image
                   src={ABOUT_PLACE.image}
                   alt={ABOUT_PLACE.imageAlt}

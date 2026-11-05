@@ -56,7 +56,7 @@ export function Footer() {
             <div>
               {/* Brand Header */}
               <div className="flex items-center space-x-3.5 mb-6">
-                <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden flex-shrink-0 shadow-md bg-white ring-1 ring-white/20">
+                <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden flex-shrink-0 bg-white ring-1 ring-white/20">
                   <Image
                     src="/images/pvg-logo.png"
                     alt="Pavan Vela Grand Hotel Logo"
