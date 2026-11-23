@@ -122,6 +122,7 @@ export function ExperiencesSection() {
               src={EXPERIENCES_INTRO.image}
               alt={EXPERIENCES_INTRO.imageAlt}
               fill
+              loading="lazy"
               sizes="100vw"
               className="object-cover"
             />
@@ -185,6 +186,7 @@ export function ExperiencesSection() {
                       src={item.image}
                       alt={item.imageAlt}
                       fill
+                      loading="lazy"
                       sizes="(max-width: 768px) 85vw, 33vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />

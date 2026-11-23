@@ -214,7 +214,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
               Notice: No overflow-hidden on this container so particles remain visible
               all the way from the screen edges to the center.
             */}
-            <div className="absolute inset-0">
+            <div className="absolute inset-0" aria-hidden="true">
               {TILES.map((tile) => (
                 <motion.div
                   key={tile.id}

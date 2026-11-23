@@ -1,7 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Playfair_Display, Cinzel } from "next/font/google";
 import { constructMetadata } from "@/lib/seo/metadata";
-import { generateHotelJsonLd, generateLocalBusinessJsonLd } from "@/lib/seo/jsonld";
+import {
+  generateHotelJsonLd,
+  generateLocalBusinessJsonLd,
+  generateWebSiteJsonLd,
+  generateBreadcrumbJsonLd,
+} from "@/lib/seo/jsonld";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Preloader } from "@/components/Preloader";
 import { BookingModalProvider } from "@/context/BookingModalContext";
@@ -44,6 +49,8 @@ export default function RootLayout({
 }>) {
   const hotelJsonLd = generateHotelJsonLd();
   const localBusinessJsonLd = generateLocalBusinessJsonLd();
+  const webSiteJsonLd = generateWebSiteJsonLd();
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd();
 
   return (
     <html
@@ -51,7 +58,14 @@ export default function RootLayout({
       className={`${dmSans.variable} ${playfairDisplay.variable} ${cinzel.variable} h-full antialiased`}
     >
       <head>
-        <JsonLd data={[hotelJsonLd, localBusinessJsonLd]} />
+        <JsonLd
+          data={[
+            hotelJsonLd,
+            localBusinessJsonLd,
+            webSiteJsonLd,
+            breadcrumbJsonLd,
+          ]}
+        />
       </head>
       <body
         suppressHydrationWarning

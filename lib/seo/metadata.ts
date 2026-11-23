@@ -8,8 +8,8 @@ import type { ConstructMetadataParams } from "@/types/seo";
  */
 export function constructCanonicalUrl(path: string = "/"): string {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
-  if (cleanPath === "/") {
-    return SITE_URL;
+  if (cleanPath === "/" || cleanPath === "") {
+    return `${SITE_URL}/`;
   }
   return `${SITE_URL}${cleanPath.replace(/\/+$/, "")}`;
 }
@@ -19,17 +19,17 @@ export function constructCanonicalUrl(path: string = "/"): string {
  *
  * Configures:
  * - Title & Title Template
- * - Description
- * - Canonical URLs (preventing duplicate content issues)
- * - Open Graph metadata
- * - Twitter summary card
- * - Production indexability controls based on environment configuration
+ * - Description (optimized for SERP display)
+ * - Canonical URLs (using primary https://pvgrand.com domain)
+ * - Open Graph & Twitter Cards with verified property imagery
+ * - Robots meta directives for search crawlers
+ * - Search Console verification support
  */
 export function constructMetadata({
   title,
   description = SITE_CONFIG.defaultDescription,
   path = "/",
-  ogImage,
+  ogImage = "/images/hero/pvg-building-exterior.png",
   noIndex = !ALLOW_INDEXING,
 }: ConstructMetadataParams = {}): Metadata {
   const canonicalUrl = constructCanonicalUrl(path);
@@ -37,19 +37,21 @@ export function constructMetadata({
     ? `${title} | ${SITE_CONFIG.name}`
     : SITE_CONFIG.defaultTitle;
 
-  const images = ogImage
-    ? [
-        {
-          url: ogImage.startsWith("http") ? ogImage : `${SITE_URL}${ogImage}`,
-          width: 1200,
-          height: 630,
-          alt: resolvedTitle,
-        },
-      ]
-    : undefined;
+  const imageUrl = ogImage.startsWith("http")
+    ? ogImage
+    : `${SITE_URL}${ogImage.startsWith("/") ? "" : "/"}${ogImage}`;
+
+  const images = [
+    {
+      url: imageUrl,
+      width: 1200,
+      height: 630,
+      alt: resolvedTitle,
+    },
+  ];
 
   return {
-    metadataBase: new URL(SITE_URL),
+    metadataBase: new URL(SITE_URL.startsWith("http") ? SITE_URL : "https://pvgrand.com"),
     title: title
       ? {
           default: resolvedTitle,
@@ -60,6 +62,23 @@ export function constructMetadata({
           template: SITE_CONFIG.titleTemplate,
         },
     description,
+    keywords: [
+      "Pavan Vela Grand",
+      "Hotel in Dindigul",
+      "Rooms in Dindigul",
+      "Hotel rooms in Dindigul",
+      "Hotel on Palani Road Bypass Dindigul",
+      "Accommodation in Dindigul",
+      "Peaceful accommodation in Dindigul",
+      "Hotel stay in Dindigul",
+      "Pavan Vela Grand Dindigul",
+      "Hotel PVG Grand",
+      "Covered Parking Hotel Dindigul",
+    ],
+    authors: [{ name: "Pavan Vela Grand", url: `${SITE_URL}/` }],
+    creator: "Pavan Vela Grand",
+    publisher: "Pavan Vela Grand",
+    category: "Hotel & Accommodation",
     alternates: {
       canonical: canonicalUrl,
     },
@@ -95,7 +114,10 @@ export function constructMetadata({
       card: "summary_large_image",
       title: resolvedTitle,
       description,
-      images: ogImage ? [ogImage] : undefined,
+      images: [imageUrl],
+    },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
     },
   };
 }

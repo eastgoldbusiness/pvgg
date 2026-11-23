@@ -7,25 +7,25 @@ import { BRAND_CONFIG } from "./brand";
  * Centralizes site URL, title templates, default descriptions,
  * and search engine indexing controls.
  */
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pvgrand.com";
 
 // Ensure siteUrl has no trailing slash for consistent canonical and sitemap URLs
 export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
 
 export const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
-// Indexing is allowed only when explicitly enabled AND running in production
+// Indexing is allowed by default unless explicitly disabled with NEXT_PUBLIC_ALLOW_INDEXING="false"
 export const ALLOW_INDEXING =
-  process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true" && IS_PRODUCTION;
+  process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false";
 
 export const SITE_CONFIG: SiteConfig = {
   name: BRAND_CONFIG.name,
   shortName: BRAND_CONFIG.shortName,
   url: SITE_URL,
-  defaultTitle: "Pavan Vela Grand | Hotel in Dindigul with Covered Parking",
+  defaultTitle: "Pavan Vela Grand — Hotel in Dindigul | Palani Road Bypass",
   titleTemplate: `%s | ${BRAND_CONFIG.name}`,
   defaultDescription:
-    "Stay at Pavan Vela Grand on Palani Road Bypass, Dindigul. Explore comfortable rooms, peaceful surroundings and covered parking. Enquire directly.",
+    "Book your stay at Pavan Vela Grand, a peaceful hotel in Dindigul on Palani Road Bypass. Explore comfortable hotel rooms with covered parking. Enquire directly.",
   locale: "en_IN",
   isProduction: IS_PRODUCTION,
   allowIndexing: ALLOW_INDEXING,

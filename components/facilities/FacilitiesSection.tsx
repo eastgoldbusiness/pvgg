@@ -90,6 +90,7 @@ export function FacilitiesSection() {
                     src={parkingFacility.image}
                     alt={parkingFacility.imageAlt}
                     fill
+                    loading="lazy"
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
@@ -200,6 +201,7 @@ export function FacilitiesSection() {
                     src={peacefulFacility.image}
                     alt={peacefulFacility.imageAlt}
                     fill
+                    loading="lazy"
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />

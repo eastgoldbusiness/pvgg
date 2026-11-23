@@ -132,6 +132,7 @@ export function AboutSection() {
                   src={ABOUT_HERO.image}
                   alt={ABOUT_HERO.imageAlt}
                   fill
+                  loading="lazy"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-contain"
                 />
@@ -212,6 +213,7 @@ export function AboutSection() {
                   src={ABOUT_PLACE.image}
                   alt={ABOUT_PLACE.imageAlt}
                   fill
+                  loading="lazy"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-contain"
                 />
