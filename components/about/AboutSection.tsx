@@ -13,6 +13,7 @@ import {
 } from "@/config/about";
 import type { AboutHighlight, AboutPromiseStep } from "@/types/about";
 import { useBookingModal } from "@/context/BookingModalContext";
+import { GoogleReviewsSection } from "@/components/reviews";
 
 function subscribeReducedMotion(callback: () => void) {
   if (typeof window === "undefined") return () => {};
@@ -382,6 +383,11 @@ export function AboutSection() {
           </div>
         </div>
       </div>
+
+      {/* =========================================================================
+          SECTION GOOGLE REVIEWS (Customer Feedback)
+          ========================================================================= */}
+      <GoogleReviewsSection />
 
       {/* =========================================================================
           SECTION E: Premium Closing CTA (White Background Conversion Panel)
