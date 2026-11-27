@@ -55,6 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${dmSans.variable} ${playfairDisplay.variable} ${cinzel.variable} h-full antialiased`}
     >
       <head>
